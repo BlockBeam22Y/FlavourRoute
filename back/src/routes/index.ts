@@ -1,6 +1,6 @@
-import { Router } from "express";
-import usersRouter from "./usersRouter";
-import appointmentsRouter from "./appointmentsRouter";
+import { Router } from 'express';
+import usersRouter from './usersRouter';
+import appointmentsRouter from './appointmentsRouter';
 
 const router: Router = Router();
 
