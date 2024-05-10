@@ -2,7 +2,7 @@ export default interface UserDto {
   name: string,
   username: string,
   email: string,
-  birthdate: Date,
+  birthdate: string,
   nDni: number,
   password: string
 };

@@ -1,20 +1,22 @@
 import { Request, Response } from 'express';
 import usersService from '../services/usersService';
+import credentialsService from '../services/credentialsService';
+import catchAsync from '../utils/catchAsync';
 
-export const getUsers = async (req: Request, res: Response): Promise<void> => {
+export const getUsers = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const users = await usersService.getUsers();
 
   res.status(200).json(users);
-};
+});
 
-export const getUserById = async (req: Request, res: Response): Promise<void> => {
+export const getUserById = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const user = await usersService.getUserById(+id);
 
   res.status(200).json(user);
-};
+});
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
+export const registerUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { username, password, name, email, birthdate, nDni } = req.body;
   await usersService.createUser({
     username,
@@ -28,8 +30,13 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
   res.status(201).json({
     message: 'User created successfully'
   });
-};
+});
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
-  res.send('Iniciar sesión de un usuario');
-};
+export const loginUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
+  const { username, password } = req.body;
+  await credentialsService.validateCredential(username, password);
+  
+  res.status(200).json({
+    message: 'Succesfully logged in'
+  });
+});
