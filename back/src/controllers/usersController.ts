@@ -11,20 +11,21 @@ export const getUsers = catchAsync(async (req: Request, res: Response): Promise<
 
 export const getUserById = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const user = await usersService.getUserById(+id);
+  const user = await usersService.getUserById(id);
 
   res.status(200).json(user);
 });
 
 export const registerUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
-  const { username, password, name, email, birthdate, nDni } = req.body;
+  const { username, password, name, email, notificationsEnabled, birthdate, nDni } = req.body;
   await usersService.createUser({
     username,
     password,
     name,
     email,
     birthdate,
-    nDni
+    nDni,
+    notificationsEnabled
   });
   
   res.status(201).json({
@@ -34,9 +35,7 @@ export const registerUser = catchAsync(async (req: Request, res: Response): Prom
 
 export const loginUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
-  await credentialsService.validateCredential(username, password);
+  const loginData = await credentialsService.validateCredential(username, password);
   
-  res.status(200).json({
-    message: 'Succesfully logged in'
-  });
+  res.status(200).json(loginData);
 });

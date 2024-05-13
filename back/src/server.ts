@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import router from './routes';
-import IError from './interfaces/IError';
+import CustomError from './utils/customError';
 
 const app = express();
 
@@ -12,9 +12,12 @@ app.use(express.json());
 
 app.use(router);
 
-app.use((err: IError, req: Request, res: Response, next: NextFunction) => {
-  res.status(err.statusCode ?? 500).json({
-    message: err.message
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction): void => {
+  const errorData = err.data ?? new CustomError().data;
+
+  res.status(errorData.statusCode).json({
+    message: errorData.message(err.params),
+    ...err.params
   });
 })
 

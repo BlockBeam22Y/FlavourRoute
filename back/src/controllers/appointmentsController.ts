@@ -10,7 +10,7 @@ export const getAppointments = catchAsync(async (req: Request, res: Response): P
 
 export const getAppointmentById = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const appointment = await appointmentsService.getAppointmentById(+id);
+  const appointment = await appointmentsService.getAppointmentById(id);
 
   res.status(200).json(appointment);
 });
@@ -30,7 +30,7 @@ export const scheduleAppointment = catchAsync(async (req: Request, res: Response
 
 export const cancelAppointment = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  await appointmentsService.cancelAppointment(+id);
+  await appointmentsService.cancelAppointment(id);
 
   res.status(200).json({
     message: 'Appointment cancelled successfully'

@@ -1,13 +1,12 @@
 import { User } from '../entities/User';
 import { Credential } from '../entities/Credential';
-import { userRepository } from '../config/dataSource';
+import UserRepository from '../repositories/UserRepository';
 import UserDto from '../dto/UserDto';
 import credentialsService from './credentialsService';
-import ErrorTypes from '../utils/errorTypes';
 
 export default {
   async getUsers(): Promise<User[]> {
-    const users: User[] = await userRepository.find({
+    const users: User[] = await UserRepository.find({
       relations: {
         appointments: true
       }
@@ -15,32 +14,23 @@ export default {
 
     return users;
   },
-  async getUserById(id: number): Promise<User> {
-    const foundUser = await userRepository.findOne({
-      where: { id },
-      relations: {
-        appointments: true
-      }
-    });
-    
-    if (!foundUser)
-      throw ErrorTypes.USER_NOT_FOUND;
-
-    return foundUser;
+  async getUserById(id: string): Promise<User> {
+    return UserRepository.findById(id);
   },
   async createUser(userData: UserDto): Promise<User> {
-    const { username, password, name, email, birthdate, nDni } = userData;
+    const { username, password, name, email, birthdate, nDni, notificationsEnabled } = userData;
 
     const credential: Credential = await credentialsService.createCredential(username, password);
-    const newUser: User = userRepository.create({
+    const newUser: User = UserRepository.create({
       name,
       email,
       birthdate,
       nDni,
+      notificationsEnabled,
       credential
     });
 
-    await userRepository.save(newUser);
+    await UserRepository.save(newUser);
     return newUser;
   }
 };

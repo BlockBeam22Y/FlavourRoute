@@ -1,26 +1,22 @@
 import { Credential } from '../entities/Credential';
-import { credentialRepository } from '../config/dataSource';
-import ErrorTypes from '../utils/errorTypes';
+import CredentialRepository from '../repositories/CredentialRepository';
 
 export default {
   async createCredential(username: string, password: string): Promise<Credential> {
-    const newCredential: Credential = credentialRepository.create({
+    const newCredential: Credential = CredentialRepository.create({
       username,
       password
     });
 
-    await credentialRepository.save(newCredential);
+    await CredentialRepository.save(newCredential);
     return newCredential;
   },
-  async validateCredential(username: string, password: string): Promise<number> {
-    const foundCredential = await credentialRepository.findOneBy({
-      username,
-      password
-    });
+  async validateCredential(username: string, password: string) {
+    const credential: Credential = await CredentialRepository.login(username, password);
 
-    if (!foundCredential)
-      throw ErrorTypes.USERNAME_OR_PASSWORD_INVALID;
-
-    return foundCredential.id;
+    return {
+      login: true,
+      user: credential.user
+    };
   }
 };

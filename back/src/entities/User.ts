@@ -15,7 +15,8 @@ export class User {
   name: string
 
   @Column({
-    length: 320
+    length: 320,
+    unique: true
   })
   email: string
 
@@ -25,10 +26,15 @@ export class User {
   @Column('integer')
   nDni: number
 
+  @Column({
+    default: false
+  })
+  notificationsEnabled: boolean
+
   @OneToMany(() => Appointment, appointment => appointment.user)
   appointments: Appointment[]
   
-  @OneToOne(() => Credential)
+  @OneToOne(() => Credential, credential => credential.user)
   @JoinColumn()
   credential: Credential
 }

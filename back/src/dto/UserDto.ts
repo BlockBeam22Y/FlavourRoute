@@ -5,4 +5,5 @@ export default interface UserDto {
   birthdate: string,
   nDni: number,
   password: string
+  notificationsEnabled?: boolean,
 };

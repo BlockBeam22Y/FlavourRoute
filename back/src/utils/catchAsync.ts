@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import IController from '../interfaces/IController';
-import IError from '../interfaces/IError';
+import CustomError from './customError';
 
-const catchAsync = (controller: IController): IController => {
+const catchAsync = (controller: (req: Request, res: Response) => Promise<void>) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    controller(req, res, next)
-      .catch((err: IError) => {
+    controller(req, res)
+      .catch((err: CustomError) => {
         next(err);
       });
   };
