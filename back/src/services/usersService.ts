@@ -3,6 +3,7 @@ import { Credential } from '../entities/Credential';
 import UserRepository from '../repositories/UserRepository';
 import UserDto from '../dto/UserDto';
 import credentialsService from './credentialsService';
+import emailNotifier from './emailNotifier';
 
 export default {
   async getUsers(): Promise<User[]> {
@@ -31,6 +32,11 @@ export default {
     });
 
     await UserRepository.save(newUser);
+
+    if (notificationsEnabled) {
+      emailNotifier.userRegisteredNotify(newUser, username);
+    }
+
     return newUser;
   }
 };

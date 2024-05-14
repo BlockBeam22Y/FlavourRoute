@@ -5,7 +5,6 @@ import { PORT } from './config/envs';
 
 AppDataSource.initialize()
   .then(() => {
-    console.log('Succesfully connected to database');
     app.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}...`);
     });

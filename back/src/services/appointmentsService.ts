@@ -3,6 +3,7 @@ import { User } from '../entities/User';
 import AppointmentRepository from '../repositories/AppointmentRepository';
 import UserRepository from '../repositories/UserRepository';
 import AppointmentDto from '../dto/AppointmentDto';
+import emailNotifier from './emailNotifier';
 
 export default {
   async getAppointments(): Promise<Appointment[]> {
@@ -23,9 +24,21 @@ export default {
     });
 
     await AppointmentRepository.save(newAppointment);
+
+    if (user.notificationsEnabled) {
+      emailNotifier.apppointmentScheduledNotify(user, date, time);
+    }
+
     return newAppointment;
   },
   async cancelAppointment(id: string): Promise<Appointment> {
-    return AppointmentRepository.findByIdAndCancel(id);
+    const appointment: Appointment = await AppointmentRepository.findByIdAndCancel(id);
+    const { user, date, time } = appointment;
+
+    if (user.notificationsEnabled) {
+      emailNotifier.apppointmentCancelledNotify(user, date, time);
+    }
+
+    return appointment;
   }
 };
