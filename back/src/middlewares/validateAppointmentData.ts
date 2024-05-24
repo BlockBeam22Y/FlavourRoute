@@ -8,11 +8,12 @@ const validateAppointmentData = async (req: Request, res: Response, next: NextFu
   const validationData = {
     date:
       typeof date === 'string' &&
-      date !== '',
+      date !== '' &&
+      !isNaN(new Date(date).valueOf()),
     time:
       typeof time === 'string' &&
       time !== '' &&
-      !isNaN(new Date(`${date} ${time}`).valueOf()),
+      !isNaN(new Date(`2024-01-01 ${time}`).valueOf()),
     userId:
       typeof userId === 'number' &&
       userId > 0

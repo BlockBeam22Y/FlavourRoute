@@ -17,7 +17,7 @@ export default {
       from: MAIL_USERNAME,
       to: user.email,
       subject: `New Reservation`,
-      text: `You have made a reservation for ${formatDate(date)} at ${time}`
+      text: `You have made a reservation for ${formatDate(date, time)}`
     }).catch(err => console.error(err));
   },
   apppointmentCancelledNotify(user: User, date: string, time: string): void {
@@ -25,7 +25,7 @@ export default {
       from: MAIL_USERNAME,
       to: user.email,
       subject: `Reservation Cancelled`,
-      text: `You have cancelled a reservation for ${formatDate(date)} at ${time}`
+      text: `You have cancelled a reservation for ${formatDate(date, time)}`
     }).catch(err => console.error(err));
   }
 };

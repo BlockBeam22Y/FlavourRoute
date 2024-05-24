@@ -9,10 +9,10 @@ const days: string[] = [
   "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"
 ];
 
-const formatDate = (date: string): string => {
+const formatDate = (date: string, time: string): string => {
   const [year, month, day] = date.split('-').map(s => +s);
   
-  return `${months[month - 1]} ${days[day - 1]}, ${year}`;
+  return `${months[month - 1]} ${days[day - 1]}, ${year} at ${time.slice(0, 5)}`;
 }
 
 export default formatDate;

@@ -19,7 +19,6 @@ export default {
     const newAppointment: Appointment = AppointmentRepository.create({
       date,
       time,
-      status: 'active',
       user
     });
 

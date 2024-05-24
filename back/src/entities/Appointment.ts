@@ -14,7 +14,9 @@ export class Appointment {
   @Column('time')
   time: string
 
-  @Column()
+  @Column({
+    default: 'active'
+  })
   status: 'active' | 'cancelled'
 
   @ManyToOne(() => User, user => user.appointments)
