@@ -7,6 +7,10 @@ const AppointmentRepository = AppDataSource.getRepository(Appointment).extend({
     const appointments: Appointment[] = await this.find({
       relations: {
         user: true
+      },
+      order: {
+        date: 'ASC',
+        time: 'ASC'
       }
     });
 
