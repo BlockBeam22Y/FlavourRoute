@@ -13,8 +13,8 @@ function App() {
       <main className='flex flex-col justify-center items-center gap-4 text-gray-800 p-4 flex-1'>
         {/* <Home /> */}
         {/* <MyReservations /> */}
-        <Register />
-        {/* <Login /> */}
+        {/* <Register /> */}
+        <Login />
       </main>
       <Footer />
     </>

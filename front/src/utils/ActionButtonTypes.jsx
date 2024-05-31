@@ -3,6 +3,16 @@ import { TbCalendarCancel } from "react-icons/tb";
 import { IoIosExit } from "react-icons/io";
 
 const ActionButtonTypes = {
+  register: (
+    <>
+      <span>Register</span>
+    </>
+  ),
+  login: (
+    <>
+      <span>Sign in</span>
+    </>
+  ),
   new: (
     <>
       <AiFillPlusCircle className='mr-2 w-6 h-6' />
