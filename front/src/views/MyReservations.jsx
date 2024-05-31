@@ -5,7 +5,7 @@ import ActionButton from '../components/ActionButton'
 import axios from 'axios';
 
 const MyReservations = () => {
-  const [reservations, setReservations] = useState([]);
+  const [reservations, setReservations] = useState(null);
   const [isCancelMode, setIsCancelMode] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const MyReservations = () => {
       .then(res => setReservations(res.data))
       .catch(err => {
         if (err.response.status === 404) {
-          setReservations([ null ]);
+          setReservations([]);
         } else {
           console.error(err);
         }
@@ -48,7 +48,7 @@ const MyReservations = () => {
 
           <div className='w-full'>
             {
-              reservations.length ? (
+              reservations ? (
                 <ReservationList reservations={reservations} isCancelMode={isCancelMode} />
               ) : (
                 <Loader />

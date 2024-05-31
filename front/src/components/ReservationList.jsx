@@ -9,19 +9,19 @@ const ReservationList = ({ reservations, isCancelMode }) => {
   };
   
   return (
-    reservations[0] === null ? (
+    reservations.length ? (
+      reservations.filter(reservation => !isCancelMode || reservation.status === 'active')
+        .map(reservation => <Reservation
+          key={reservation.id}
+          reservation={reservation}
+          isCancelMode={isCancelMode}
+          handleSelect={handleSelect}
+          isSelected={selectedId === reservation.id}
+        />)
+    ) : (
       <div className='w-full text-center p-2 border-4 border-t-0'>
         No reservations found
       </div>
-    ) : (
-        reservations.filter(reservation => !isCancelMode || reservation.status === 'active')
-          .map(reservation => <Reservation
-            key={reservation.id}
-            reservation={reservation}
-            isCancelMode={isCancelMode}
-            handleSelect={handleSelect}
-            isSelected={selectedId === reservation.id}
-          />)
     )
   );
 }

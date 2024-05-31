@@ -103,7 +103,7 @@ const Register = () => {
             passwordConfirm: true
           });
         })
-        .catch(err => setAlertInfo(err.response.data));
+        .catch(err => setAlertInfo(err.response ? err.response.data : err));
     } else {
       setValidationData(validateUserData(formData));
     }

@@ -5,15 +5,15 @@ const navLinks = [
   },
   {
     text: 'My Reservations',
-    href: '/'
+    href: '/reservations'
   },
   {
     text: 'About',
-    href: '/'
+    href: '/about'
   },
   {
     text: 'Contact',
-    href: '/'
+    href: '/contact'
   }
 ];
 

@@ -12,15 +12,25 @@ const Navbar = () => {
         </a>
       </header>
 
-      <ul className='flex items-center h-12'>
-        {
-          navLinks.map((navLink, i) => <Navlink
-            key={i}
-            text={navLink.text}
-            href={navLink.href}
-          />)
-        }
-      </ul>
+      <div className='flex-1 flex justify-between items-center flex-wrap sm:flex-nowrap'>
+        <ul className='flex items-center h-12'>
+          {
+            navLinks.map((navLink, i) => (
+              <ul key={i}>
+                <Navlink
+                  text={navLink.text}
+                  href={navLink.href}
+                />
+              </ul>
+            ))
+          }
+        </ul>
+        
+        <div className='flex items-center h-12'>
+          <Navlink text='Sign up' href='/register' />
+          <Navlink text='Login' href='/login' />
+        </div>
+      </div>
     </nav>
   );
 }

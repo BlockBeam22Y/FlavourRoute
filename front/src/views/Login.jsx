@@ -44,7 +44,7 @@ const Login = () => {
           setIsChecked(false);
         }
       })
-      .catch(err => setAlertInfo(err.response.data));
+      .catch(err => setAlertInfo(err.response ? err.response.data : err));
   };
   
   return (

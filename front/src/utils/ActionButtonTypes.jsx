@@ -1,6 +1,6 @@
 import { AiFillPlusCircle } from "react-icons/ai";
 import { TbCalendarCancel } from "react-icons/tb";
-import { IoIosExit } from "react-icons/io";
+import { IoIosExit, IoIosArrowForward } from "react-icons/io";
 
 const ActionButtonTypes = {
   register: (
@@ -31,6 +31,12 @@ const ActionButtonTypes = {
       <span>Exit Cancel Mode</span>
     </>
   ),
+  redirect: (
+    <>
+      <span className='ml-2'>Back to Home</span>
+      <IoIosArrowForward className='w-6 h-6' />
+    </>
+  )
 };
 
 export default ActionButtonTypes;
