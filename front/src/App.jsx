@@ -15,7 +15,8 @@ function App() {
       <main className='flex flex-col justify-center items-center gap-4 text-gray-800 p-4 flex-1'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/reservations' element={<MyReservations />} />
+          <Route path='/reservations' element={<MyReservations isCancelMode={false} />} />
+          <Route path='/reservations/cancel' element={<MyReservations isCancelMode={true} />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='*' element={<Error />} />

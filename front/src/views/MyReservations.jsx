@@ -1,36 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import ReservationList from '../components/ReservationList';
 import Loader from '../components/Loader';
 import ActionButton from '../components/ActionButton'
 import axios from 'axios';
+import { fetchReservations, clearReservations } from '../redux/reservationsReducer';
 
-const MyReservations = () => {
-  const [reservations, setReservations] = useState(null);
-  const [isCancelMode, setIsCancelMode] = useState(false);
+const MyReservations = ({ isCancelMode }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user.user);
+  const reservations = useSelector(state => state.reservations.reservations);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/appointments')
-      .then(res => setReservations(res.data))
-      .catch(err => {
-        if (err.response.status === 404) {
-          setReservations([]);
-        } else {
-          console.error(err);
-        }
-      });
-  }, []);
+    if (user) {
+      axios.get(`http://localhost:3000/users/${user.id}`)
+        .then(res => dispatch(fetchReservations(res.data.appointments)))
+        .catch(err => console.error(err));
+    } else {
+      navigate('/login');
+    }
 
-  const handleNewButton = () => {
-    
-  };
-
-  const handleCancelButton = () => {
-    setIsCancelMode(true);
-  };
-
-  const handleExitButton = () => {
-    setIsCancelMode(false);
-  };
+    return () => dispatch(clearReservations());
+  }, [user, navigate, dispatch]);
 
   return (
     <>
@@ -60,11 +53,11 @@ const MyReservations = () => {
         <div className='w-full flex justify-evenly'>
           {
             isCancelMode ? (
-              <ActionButton type='exit' handleOnClick={handleExitButton} />
+              <ActionButton type='exit' handleOnClick={() => navigate('/reservations')} />
             ) : (
               <>
-                <ActionButton type='new' handleOnClick={handleNewButton}/>
-                <ActionButton type='cancel' handleOnClick={handleCancelButton} />
+                <ActionButton type='new' handleOnClick={() => navigate('new')}/>
+                <ActionButton type='cancel' handleOnClick={() => navigate('cancel')} />
               </>
             )
           }

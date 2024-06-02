@@ -11,7 +11,17 @@ const CredentialRepository = AppDataSource.getRepository(Credential).extend({
           password
         },
         relations: {
-          user: true
+          user: {
+            appointments: true
+          }
+        },
+        order: {
+          user: {
+            appointments: {
+              date: 'ASC',
+              time: 'ASC'
+            }
+          }
         }
       });
 

@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import ActionButton from '../components/ActionButton';
 import Alert from '../components/Alert';
 import axios from 'axios';
+import { login } from '../redux/userReducer';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -12,6 +18,7 @@ const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   const [alertInfo, setAlertInfo] = useState(null);
+  const [isPending, setIsPending] = useState(false);
 
   const handleOnChange = (event) => {
     const { name, value } = event.target;
@@ -25,6 +32,7 @@ const Login = () => {
   const handleOnSubmit = (event) => {
     event.preventDefault();
     setAlertInfo(null);
+    setIsPending(true);
 
     axios.post('http://localhost:3000/users/login', formData)
       .then(res => {
@@ -33,8 +41,10 @@ const Login = () => {
             message: 'Logged in successfully',
             OK: true
           });
+          
+          setIsPending(false);
 
-          console.log(res.data.user);
+          dispatch(login(res.data.user));
 
           setFormData({
             username: '',
@@ -42,9 +52,14 @@ const Login = () => {
           });
 
           setIsChecked(false);
+
+          navigate('/reservations');
         }
       })
-      .catch(err => setAlertInfo(err.response ? err.response.data : err));
+      .catch(err => {
+        setAlertInfo(err.response ? err.response.data : err);
+        setIsPending(false);
+      });
   };
   
   return (
@@ -79,8 +94,13 @@ const Login = () => {
           <span>Show password</span>
         </label>
 
-        <ActionButton type='login' disabled={!formData.username || !formData.password} />
+        <ActionButton type='login' disabled={isPending || !formData.username || !formData.password} />
       </form>
+
+      <div>
+        {'Don\'t have an account? '}
+        <Link to='/register' className='underline' >Sign up</Link>
+      </div>
 
       {alertInfo && <Alert info={alertInfo} />}
     </>

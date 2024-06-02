@@ -1,13 +1,19 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { GoUpload } from 'react-icons/go'
 import defaultAvatar from '../assets/user.png';
 import Alert from '../components/Alert';
 import ActionButton from '../components/ActionButton';
+import { Link, useNavigate } from 'react-router-dom';
 import { years, months, days } from '../utils/dateOptions';
 import validateUserData from '../utils/validateUserData';
 import axios from 'axios';
+import { login } from '../redux/userReducer';
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -33,6 +39,7 @@ const Register = () => {
   });
 
   const [alertInfo, setAlertInfo] = useState(null);
+  const [isPending, setIsPending] = useState(false);
 
   const handleOnChange = (event) => {
     const { name, type, value } = event.target;
@@ -67,17 +74,22 @@ const Register = () => {
 
     if (Object.values(validateUserData(formData)).every(value => value)) {
       setAlertInfo(null);
+      setIsPending(true);
 
       axios.post('http://localhost:3000/users/register', {
         ...formData,
         nDni: +formData.nDni,
         birthdate: Object.values(formData.birthdate).join('-')
       })
-        .then(() => {
+        .then(res => {
+          dispatch(login(res.data.user));
+
           setAlertInfo({
             message: 'You have successfully registered',
             OK: true 
           });
+
+          setIsPending(false);
 
           setFormData({
             name: '',
@@ -102,8 +114,13 @@ const Register = () => {
             password: true,
             passwordConfirm: true
           });
+          
+          navigate('/reservations');
         })
-        .catch(err => setAlertInfo(err.response ? err.response.data : err));
+        .catch(err => {
+          setAlertInfo(err.response ? err.response.data : err);
+          setIsPending(false);
+        });
     } else {
       setValidationData(validateUserData(formData));
     }
@@ -223,9 +240,14 @@ const Register = () => {
         </div>
 
         <div className='mt-2'>
-          <ActionButton type='register' disabled={Object.values(validationData).some(value => !value)} />
+          <ActionButton type='register' disabled={isPending || Object.values(validationData).some(value => !value)} />
         </div>
       </form>
+
+      <div>
+        {'Already have an account? '}
+        <Link to='/login' className='underline' >Sign in</Link>
+      </div>
       
       {alertInfo && <Alert info={alertInfo} />}
     </>

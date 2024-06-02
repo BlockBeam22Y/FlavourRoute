@@ -18,7 +18,7 @@ export const getUserById = catchAsync(async (req: Request, res: Response): Promi
 
 export const registerUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { username, password, name, email, notificationsEnabled, birthdate, nDni } = req.body;
-  await usersService.createUser({
+  const newUser = await usersService.createUser({
     username,
     password,
     name,
@@ -29,7 +29,8 @@ export const registerUser = catchAsync(async (req: Request, res: Response): Prom
   });
   
   res.status(201).json({
-    message: 'User created successfully'
+    message: 'User created successfully',
+    user: newUser,
   });
 });
 

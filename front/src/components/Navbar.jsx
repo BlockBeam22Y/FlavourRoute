@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import Navlink from './Navlink';
 import logo from '/restaurant.png';
 import navLinks from '../utils/navLinks';
 
 const Navbar = () => {
+  const user = useSelector(state => state.user.user);
+
   return (
     <nav className='bg-red-600 text-white flex items-center flex-wrap px-4'>
       <header>
@@ -16,7 +19,7 @@ const Navbar = () => {
         <ul className='flex items-center h-12'>
           {
             navLinks.map((navLink, i) => (
-              <ul key={i}>
+              (user || navLink.href !== '/reservations') && <ul key={i}>
                 <Navlink
                   text={navLink.text}
                   href={navLink.href}
