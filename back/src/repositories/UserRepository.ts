@@ -9,6 +9,12 @@ const UserRepository = AppDataSource.getRepository(User).extend({
         where: { id: +id },
         relations: {
           appointments: true
+        },
+        order: {
+          appointments: {
+            date: 'ASC',
+            time: 'ASC'
+          }
         }
       });
       

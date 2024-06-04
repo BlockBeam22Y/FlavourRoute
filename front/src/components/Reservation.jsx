@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+import { ModalContext } from '../App';
+import CancelModal from './CancelModal';
 import formatDate from '../utils/formatDate';
 
 const Reservation = ({ reservation, isCancelMode }) => {
+  const setModal = useContext(ModalContext);
+  
   return (
     <div className='flex p-2 border-4 border-t-0 hover:bg-gray-100'>
       <div className='w-56 text-center'>
@@ -12,7 +17,7 @@ const Reservation = ({ reservation, isCancelMode }) => {
       <div className='w-56 text-center'>
         {
           isCancelMode ? (
-            <button className='inline-flex items-center rounded-full bg-red-600 hover:bg-red-700 px-2 py-1 text-xs font-bold text-white hover:text-gray-300 ring-1 ring-inset ring-red-600/10'>
+            <button onClick={() => setModal(<CancelModal reservation={reservation} />)} className='inline-flex items-center rounded-full bg-red-600 hover:bg-red-700 px-2 py-1 text-xs font-bold text-white hover:text-gray-300 ring-1 ring-inset ring-red-600/10'>
               Cancel
             </button>
           ) : reservation.status === 'cancelled' ? (

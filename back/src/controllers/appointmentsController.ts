@@ -30,9 +30,10 @@ export const scheduleAppointment = catchAsync(async (req: Request, res: Response
 
 export const cancelAppointment = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  await appointmentsService.cancelAppointment(id);
+  const cancelledAppointment = await appointmentsService.cancelAppointment(id);
 
   res.status(200).json({
-    message: 'Appointment cancelled successfully'
+    message: 'Appointment cancelled successfully',
+    appointment: cancelledAppointment
   });
 });

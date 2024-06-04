@@ -15,14 +15,6 @@ const CredentialRepository = AppDataSource.getRepository(Credential).extend({
             appointments: true
           }
         },
-        order: {
-          user: {
-            appointments: {
-              date: 'ASC',
-              time: 'ASC'
-            }
-          }
-        }
       });
 
       return foundCredential;

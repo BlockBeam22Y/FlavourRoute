@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import Navlink from './Navlink';
+import UserOptions from './UserOptions';
 import logo from '/restaurant.png';
 import navLinks from '../utils/navLinks';
 
@@ -29,10 +30,7 @@ const Navbar = () => {
           }
         </ul>
         
-        <div className='flex items-center h-12'>
-          <Navlink text='Sign up' href='/register' />
-          <Navlink text='Login' href='/login' />
-        </div>
+        <UserOptions user={user} />
       </div>
     </nav>
   );

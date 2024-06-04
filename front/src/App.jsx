@@ -1,3 +1,4 @@
+import { createContext, useState } from 'react';
 import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import Home from './views/Home';
@@ -8,10 +9,15 @@ import Error from './views/Error';
 import Footer from './components/Footer';
 import './App.css';
 
+export const ModalContext = createContext(null);
+
 function App() {
+  const [modal, setModal] = useState(null);
+
   return (
-    <>
+    <ModalContext.Provider value={setModal}>
       <Navbar />
+
       <main className='flex flex-col justify-center items-center gap-4 text-gray-800 p-4 flex-1'>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -22,8 +28,21 @@ function App() {
           <Route path='*' element={<Error />} />
         </Routes>
       </main>
+
       <Footer />
-    </>
+
+      {
+        modal && (
+          <div className='w-screen h-screen group absolute bg-gray-200/50 flex justify-center items-center'>
+            <div onClick={() => setModal(null)} className='w-full h-full absolute'></div>
+
+            <div className='animate-slidedown'>
+              {modal}
+            </div>
+          </div>
+        )
+      }
+    </ModalContext.Provider>
   )
 }
 
