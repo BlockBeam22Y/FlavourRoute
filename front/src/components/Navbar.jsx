@@ -16,7 +16,7 @@ const Navbar = () => {
         </a>
       </header>
 
-      <div className='flex-1 flex justify-between items-center flex-wrap sm:flex-nowrap'>
+      <div className='relative flex-1 flex justify-between items-center flex-wrap sm:flex-nowrap'>
         <ul className='flex items-center h-12'>
           {
             navLinks.map((navLink, i) => (

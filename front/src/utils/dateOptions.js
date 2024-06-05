@@ -1,7 +1,7 @@
 const currentYear = new Date().getFullYear();
 
 export const years = [...Array(100).keys()].map(i => {
-  let year = currentYear - i;
+  let year = currentYear - 1 - i;
   
   return {
     text: year,

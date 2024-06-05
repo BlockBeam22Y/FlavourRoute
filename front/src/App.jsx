@@ -5,6 +5,7 @@ import Home from './views/Home';
 import MyReservations from './views/MyReservations';
 import Register from './views/Register';
 import Login from './views/Login';
+import NewReservation from './views/NewReservation';
 import Error from './views/Error';
 import Footer from './components/Footer';
 import './App.css';
@@ -23,6 +24,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/reservations' element={<MyReservations isCancelMode={false} />} />
           <Route path='/reservations/cancel' element={<MyReservations isCancelMode={true} />} />
+          <Route path='/reservations/new' element={<NewReservation />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='*' element={<Error />} />

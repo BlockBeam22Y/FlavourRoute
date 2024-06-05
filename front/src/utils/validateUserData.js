@@ -3,48 +3,58 @@ const validateUserData = (formData) => {
     name,
     username, 
     email, 
-    birthdate: {
-      day,
-      month,
-      year
-    }, 
     nDni, 
     password, 
     passwordConfirm, 
-    notificationsEnabled
   } = formData;
 
-  const birthdate = `${year}-${month}-${day}`;
+  const validationData = {};
 
-  const validationData = {
-    username:
-      typeof username === 'string' &&
-      username !== '' &&
-      /^\w+$/.test(username),
-    password:
-      typeof password === 'string' &&
-      password.length >= 8 &&
-      password.length <= 16,
-    passwordConfirm:
-      passwordConfirm !== '' &&
-      passwordConfirm === password,
-    name:
-      typeof name === 'string' &&
-      name !== '',
-    email:
-      typeof email === 'string' &&
-      email !== '' &&
-      /^([a-z0-9][-_.]?)*[a-z0-9]@([a-z][-.]?)*[a-z]\.[a-z]{2,4}$/.test(email),
-    birthdate:
-      typeof birthdate === 'string' &&
-      birthdate !== '' &&
-      !isNaN(new Date(birthdate).valueOf()),
-    nDni:
-      typeof nDni === 'string' &&
-      /^(\d){6,9}$/.test(nDni),
-    notificationsEnabled:
-      typeof notificationsEnabled === 'boolean'
-  };
+  if (username === '') {
+    validationData.username = 'Username is required';
+  } else if (!/^\w+$/.test(username)) {
+    validationData.username = 'Username is invalid';
+  } else {
+    validationData.username = '';
+  }
+
+  if (password === '') {
+    validationData.password = 'Password is required';
+  } else if (password.length < 8) {
+    validationData.password = 'Password is too short';
+  } else if (password.length > 16) {
+    validationData.password = 'Password is too long';
+  } else if (!/^[^\s]+$/.test(password)) {
+    validationData.password = 'Password can\'t contain spaces';
+  } else {
+    validationData.password = '';
+  }
+  
+  if (passwordConfirm !== password) {
+    validationData.passwordConfirm = 'Passwords don\'t match';
+  } else {
+    validationData.passwordConfirm = '';
+  }
+
+  if (name === '') {
+    validationData.name = 'Name is required';
+  } else {
+    validationData.name = '';
+  }
+
+  if (email === '') {
+    validationData.email = 'Email is required';
+  } else if (!/^([a-z0-9][-_.]?)*[a-z0-9]@([a-z][-.]?)*[a-z]\.[a-z]{2,4}$/.test(email)) {
+    validationData.email = 'Email is invalid';
+  } else {
+    validationData.email = '';
+  }
+
+  if (!/^(\d){6,9}$/.test(nDni)) {
+    validationData.nDni = 'Dni is invalid';
+  } else {
+    validationData.nDni = '';
+  }
 
   return validationData;
 };

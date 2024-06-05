@@ -13,7 +13,7 @@ const UserOptions = ({ user }) => {
 
   return (
     user ? (
-      <div className='absolute top-2 right-4 flex flex-col bg-red-500 rounded-md shadow-md'>
+      <div className='absolute top-0 right-0 flex flex-col bg-red-500 rounded-md shadow-md'>
         <div onClick={() => setToggle(!toggle)} className={`flex items-center h-12 px-1 cursor-pointer hover:bg-red-700 hover:text-gray-300 ${toggle ? 'border-gray-300 border-b rounded-t-md' : 'rounded-md'}`}>  
           <img src={defaultAvatar} alt='avatar' className='w-12 h-12 p-1' />
 

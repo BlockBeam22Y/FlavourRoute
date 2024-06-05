@@ -1,5 +1,5 @@
 import { AiFillPlusCircle } from "react-icons/ai";
-import { TbCalendarCancel } from "react-icons/tb";
+import { TbCalendarCancel, TbCalendarPlus } from "react-icons/tb";
 import { IoIosExit, IoIosArrowForward } from "react-icons/io";
 
 const ActionButtonTypes = {
@@ -29,6 +29,12 @@ const ActionButtonTypes = {
     <>
       <IoIosExit className='mr-2 w-6 h-6' />
       <span>Exit Cancel Mode</span>
+    </>
+  ),
+  create: (
+    <>
+      <TbCalendarPlus className='mr-2 w-6 h-6' />
+      <span>Make reservation</span>
     </>
   ),
   redirect: (

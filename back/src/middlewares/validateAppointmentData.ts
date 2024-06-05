@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../utils/customError';
 import UserRepository from '../repositories/UserRepository';
+import getISODate from '../utils/getISODate';
 
 const validateAppointmentData = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { date, time, userId } = req.body;
@@ -9,11 +10,14 @@ const validateAppointmentData = async (req: Request, res: Response, next: NextFu
     date:
       typeof date === 'string' &&
       date !== '' &&
-      !isNaN(new Date(date).valueOf()),
+      !isNaN(new Date(date).valueOf()) &&
+      date > getISODate(),
     time:
       typeof time === 'string' &&
       time !== '' &&
-      !isNaN(new Date(`2024-01-01 ${time}`).valueOf()),
+      !isNaN(new Date(`2024-01-01 ${time}`).valueOf()) &&
+      time >= '09:00' &&
+      time < '22:00',
     userId:
       typeof userId === 'number' &&
       userId > 0

@@ -30,12 +30,12 @@ const Register = () => {
   });
 
   const [validationData, setValidationData] = useState({
-    name: true,
-    username: true,
-    email: true,
-    nDni: true,
-    password: true,
-    passwordConfirm: true
+    name: '',
+    username: '',
+    email: '',
+    nDni: '',
+    password: '',
+    passwordConfirm: ''
   });
 
   const [alertInfo, setAlertInfo] = useState(null);
@@ -44,36 +44,42 @@ const Register = () => {
   const handleOnChange = (event) => {
     const { name, type, value } = event.target;
     
-    setValidationData({
-      ...validationData,
-      [name]: true
-    });
-    
     if (type === 'select-one') {
       formData.birthdate[name] = value;
     } else if (type === 'checkbox') {
       formData[name] = !formData[name];
     } else {
-      formData[name] = value;
+      formData[name] = value.trimStart();
     }
 
     setFormData(formData);
-  };
-  
-  const handleOnBlur = (event) => {
-    const { name } = event.target;
 
     setValidationData({
       ...validationData,
-      [name]: validateUserData(formData)[name]
+      password: name === 'passwordConfirm' ?
+        validateUserData(formData).password :
+        validationData.password,
+      passwordConfirm: name === 'password' ?
+        validateUserData(formData).passwordConfirm :
+        validationData.passwordConfirm,
+      [name]: validateUserData(formData)[name],
     });
   };
   
   const handleOnSubmit = (event) => {
     event.preventDefault();
+    setAlertInfo(null);
 
-    if (Object.values(validateUserData(formData)).every(value => value)) {
-      setAlertInfo(null);
+    for (const name in formData) {
+      if (typeof formData[name] === 'string') {
+        formData[name] = formData[name].trim();
+        setFormData(formData);
+      }
+    }
+    
+    setValidationData(validateUserData(formData));
+
+    if (Object.values(validationData).every(value => !value)) {
       setIsPending(true);
 
       axios.post('http://localhost:3000/users/register', {
@@ -107,12 +113,12 @@ const Register = () => {
           });
 
           setValidationData({
-            name: true,
-            username: true,
-            email: true,
-            nDni: true,
-            password: true,
-            passwordConfirm: true
+            name: '',
+            username: '',
+            email: '',
+            nDni: '',
+            password: '',
+            passwordConfirm: ''
           });
           
           navigate('/reservations');
@@ -121,8 +127,6 @@ const Register = () => {
           setAlertInfo(err.response ? err.response.data : err);
           setIsPending(false);
         });
-    } else {
-      setValidationData(validateUserData(formData));
     }
   };
 
@@ -132,16 +136,17 @@ const Register = () => {
         <h2 className='text-3xl font-bold mb-2'>Create Account</h2>
 
         <div className='w-full flex flex-col-reverse sm:flex-row items-center gap-2'>
-          <div className='w-full sm:w-64 flex flex-col gap-2 mb-2 sm:m-0'>
+          <div className='w-full sm:w-64 flex flex-col mb-2 sm:m-0 gap-1'>
             <input
               type='text'
               name='name'
               placeholder='Name'
               value={formData.name}
               onChange={handleOnChange}
-              onBlur={handleOnBlur}
-              className={`w-full px-2 py-1 border-b ${validationData.name || 'bg-red-50 border-red-600'}`} 
+              className={`w-full px-2 py-1 border-b ${validationData.name && 'bg-red-50 border-red-600'}`} 
             />
+
+            <p className='text-sm text-red-600 ml-2'>{validationData.name}</p>
             
             <input 
               type='text' 
@@ -149,19 +154,21 @@ const Register = () => {
               placeholder='Username' 
               value={formData.username} 
               onChange={handleOnChange} 
-              onBlur={handleOnBlur}
-              className={`w-full px-2 py-1 border-b ${validationData.username || 'bg-red-50 border-red-600'}`}
+              className={`w-full px-2 py-1 border-b ${validationData.username && 'bg-red-50 border-red-600'}`}
             />
+
+            <p className='text-sm text-red-600 ml-2'>{validationData.username}</p>
             
             <input 
-              type='email' 
+              type='text' 
               name='email' 
               placeholder='Email' 
               value={formData.email} 
               onChange={handleOnChange} 
-              onBlur={handleOnBlur}
-              className={`w-full px-2 py-1 border-b ${validationData.email || 'bg-red-50 border-red-600'}`}
+              className={`w-full px-2 py-1 border-b ${validationData.email && 'bg-red-50 border-red-600'}`}
             />
+
+            <p className='text-sm text-red-600 ml-2'>{validationData.email}</p>
 
             <input
               type='number' 
@@ -169,9 +176,10 @@ const Register = () => {
               placeholder='Dni' 
               value={formData.nDni} 
               onChange={handleOnChange} 
-              onBlur={handleOnBlur}
-              className={`w-full px-2 py-1 border-b ${validationData.nDni || 'bg-red-50 border-red-600'}`}
+              className={`w-full px-2 py-1 border-b ${validationData.nDni && 'bg-red-50 border-red-600'}`}
             />
+
+            <p className='text-sm text-red-600 ml-2'>{validationData.nDni}</p>
           </div>
 
           <div className='p-2 relative'>
@@ -214,10 +222,11 @@ const Register = () => {
               placeholder='Password' 
               value={formData.password} 
               onChange={handleOnChange} 
-              onBlur={handleOnBlur}
-              className={`w-full px-2 py-1 border-b ${validationData.password && validationData.passwordConfirm || 'bg-red-50 border-red-600'}`} 
+              className={`w-full px-2 py-1 border-b ${(validationData.password || validationData.passwordConfirm) && 'bg-red-50 border-red-600'}`} 
             />
           </div>
+
+          <p className='text-sm text-red-600 ml-2'>{validationData.password}</p>
 
           <div className='w-full'>
             <input 
@@ -226,10 +235,11 @@ const Register = () => {
               placeholder='Confirm password' 
               value={formData.passwordConfirm} 
               onChange={handleOnChange} 
-              onBlur={handleOnBlur}
-              className={`w-full px-2 py-1 border-b ${validationData.password && validationData.passwordConfirm || 'bg-red-50 border-red-600'}`} 
+              className={`w-full px-2 py-1 border-b ${(validationData.password || validationData.passwordConfirm) && 'bg-red-50 border-red-600'}`} 
             />
           </div>
+
+          <p className='text-sm text-red-600 ml-2'>{validationData.passwordConfirm}</p>
 
           <div className='w-full'>
             <label>
@@ -240,7 +250,7 @@ const Register = () => {
         </div>
 
         <div className='mt-2'>
-          <ActionButton type='register' disabled={isPending || Object.values(validationData).some(value => !value)} />
+          <ActionButton type='register' disabled={isPending || Object.values(validationData).some(value => value)} />
         </div>
       </form>
 
