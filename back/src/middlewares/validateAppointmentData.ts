@@ -4,9 +4,13 @@ import UserRepository from '../repositories/UserRepository';
 import getISODate from '../utils/getISODate';
 
 const validateAppointmentData = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { date, time, userId } = req.body;
+  const { purpose, date, time, userId } = req.body;
 
   const validationData = {
+    purpose:
+      typeof purpose === 'string' &&
+      purpose.length >= 6 &&
+      purpose.length <= 32,
     date:
       typeof date === 'string' &&
       date !== '' &&

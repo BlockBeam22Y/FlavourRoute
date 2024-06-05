@@ -34,9 +34,10 @@ const MyReservations = ({ isCancelMode }) => {
       <div className='flex flex-col gap-4'>
         <div className='bg-white flex flex-col items-center w-fit'>
           <div className='bg-gray-200 flex p-2 border-4'>
-            <div className='w-56 text-center font-bold'>Date</div>
-            <div className='w-56 text-center font-bold'>Time</div>
-            <div className='w-56 text-center font-bold'>Status</div>
+            <div className='w-48 text-center font-bold'>Date</div>
+            <div className='w-48 text-center font-bold'>Time</div>
+            <div className='w-48 text-center font-bold'>Purpose</div>
+            <div className='w-48 text-center font-bold'>Status</div>
           </div>
 
           <div className='w-full'>

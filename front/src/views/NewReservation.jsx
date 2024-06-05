@@ -12,13 +12,13 @@ const NewReservation = () => {
   const user = useSelector(state => state.user.user);
 
   const [formData, setFormData] = useState({
-    description: '',
+    purpose: '',
     date: '',
     time: ''
   });
 
   const [validationData, setValidationData] = useState({
-    description: true,
+    purpose: true,
     date: true,
     time: true
   });
@@ -75,13 +75,13 @@ const NewReservation = () => {
           setIsPending(false);
 
           setFormData({
-            description: '',
+            purpose: '',
             date: '',
             time: ''
           });
           
           setValidationData({
-            description: true,
+            purpose: true,
             date: true,
             time: true
           });
@@ -107,12 +107,12 @@ const NewReservation = () => {
 
         <input
           type='text'
-          name='description'
-          placeholder='Description'
-          value={formData.description}
+          name='purpose'
+          placeholder='Purpose'
+          value={formData.purpose}
           onChange={handleOnChange}
           onBlur={handleOnBlur}
-          className={`w-full px-2 py-1 border-b ${validationData.description || 'bg-red-50 border-red-600'}`} 
+          className={`w-full px-2 py-1 border-b ${validationData.purpose || 'bg-red-50 border-red-600'}`} 
         />
 
         <div className='flex gap-24'>

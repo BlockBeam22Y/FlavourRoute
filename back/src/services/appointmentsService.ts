@@ -13,12 +13,13 @@ export default {
     return AppointmentRepository.findById(id);
   },
   async createAppointment(appointmentData: AppointmentDto): Promise<Appointment> {
-    const { date, time, userId } = appointmentData;
+    const { date, time, purpose, userId } = appointmentData;
 
     const user: User = await UserRepository.findById(userId);
     const newAppointment: Appointment = AppointmentRepository.create({
       date,
       time,
+      purpose,
       user
     });
 

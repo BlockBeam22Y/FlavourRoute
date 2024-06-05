@@ -16,10 +16,11 @@ export const getAppointmentById = catchAsync(async (req: Request, res: Response)
 });
 
 export const scheduleAppointment = catchAsync(async (req: Request, res: Response): Promise<void> => {
-  const { date, time, userId } = req.body;
+  const { date, time, purpose, userId } = req.body;
   await appointmentsService.createAppointment({
     date,
     time,
+    purpose,
     userId
   });
   

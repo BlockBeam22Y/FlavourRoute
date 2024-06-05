@@ -15,6 +15,11 @@ export class Appointment {
   time: string
 
   @Column({
+    length: 32
+  })
+  purpose: string
+
+  @Column({
     default: 'active'
   })
   status: 'active' | 'cancelled'

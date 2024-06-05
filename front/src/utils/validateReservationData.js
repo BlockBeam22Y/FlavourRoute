@@ -2,16 +2,16 @@ import getISODate from './getISODate';
 
 const validateReservationData = (formData) => {
   const {
-    description,
+    purpose,
     date,
     time
   } = formData;
   
   const validationData = {
-    description:
-      typeof description === 'string' &&
-      description.length >= 6 &&
-      description.length <= 32,
+    purpose:
+      typeof purpose === 'string' &&
+      purpose.length >= 6 &&
+      purpose.length <= 32,
     date:
       typeof date === 'string' &&
       date !== '' &&
