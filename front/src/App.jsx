@@ -2,6 +2,8 @@ import { createContext, useState } from 'react';
 import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import Home from './views/Home';
+import About from './views/About';
+import Contact from './views/Contact';
 import MyReservations from './views/MyReservations';
 import Register from './views/Register';
 import Login from './views/Login';
@@ -22,6 +24,8 @@ function App() {
       <main className='flex flex-col justify-center items-center gap-4 text-gray-800 p-4 flex-1'>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
           <Route path='/reservations' element={<MyReservations isCancelMode={false} />} />
           <Route path='/reservations/cancel' element={<MyReservations isCancelMode={true} />} />
           <Route path='/reservations/new' element={<NewReservation />} />

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import Navlink from './Navlink';
 import UserOptions from './UserOptions';
-import logo from '/restaurant.png';
+import logo from '../assets/restaurant.png';
 import navLinks from '../utils/navLinks';
 
 const Navbar = () => {
