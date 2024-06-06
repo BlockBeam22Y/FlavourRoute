@@ -25,7 +25,7 @@ const About = () => {
           </p>
 
           <p>
-            Our <span className='font-bold'>opening hours</span> are from <pre className='inline'>09:00</pre> to <pre className='inline'>22:00</pre>.
+            Our <span className='font-bold'>opening hours</span> are from <span className='font-mono'>09:00</span> to <span className='font-mono'>22:00</span>.
             Cancellations are allowed <span className='font-bold'>up to one day in advance.</span>
           </p>
         </section>

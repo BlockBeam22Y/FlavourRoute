@@ -21,7 +21,7 @@ function App() {
     <ModalContext.Provider value={setModal}>
       <Navbar />
 
-      <main className='flex flex-col justify-center items-center gap-4 text-gray-800 p-4 flex-1'>
+      <main className='flex flex-col items-center gap-4 text-gray-800 p-4 flex-1'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
