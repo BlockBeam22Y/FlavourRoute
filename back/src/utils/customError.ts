@@ -1,3 +1,5 @@
+import formatDate from './formatDate';
+
 const ErrorTypes = {
   AVATAR_INVALID: {
     message: () => 'Invalid avatar image',
@@ -26,6 +28,10 @@ const ErrorTypes = {
   APPOINTMENT_USER_INVALID: {
     message: (params: any) => `Couldn't schedule appointment for user with id '${params.userId}'`,
     statusCode: 400
+  },
+  APPOINTMENT_DUPLICATED: {
+    message: (params: any) => `A pending appointment for ${formatDate(params.date, params.time)} was found`,
+    statusCode: 409
   },
   USER_ID_INVALID: {
     message: (params: any) => `Couldn't find user with id '${params.id}'`,

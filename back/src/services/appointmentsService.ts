@@ -16,6 +16,9 @@ export default {
     const { date, time, purpose, userId } = appointmentData;
 
     const user: User = await UserRepository.findById(userId);
+
+    await AppointmentRepository.checkByDateTime(date, time, user);
+
     const newAppointment: Appointment = AppointmentRepository.create({
       date,
       time,

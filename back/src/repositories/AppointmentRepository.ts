@@ -1,6 +1,7 @@
 import { AppDataSource } from '../config/dataSource';
 import { Appointment } from '../entities/Appointment';
 import CustomError from '../utils/customError';
+import { User } from '../entities/User';
 
 const AppointmentRepository = AppDataSource.getRepository(Appointment).extend({
   findAll: async function (): Promise<Appointment[]> {
@@ -43,6 +44,18 @@ const AppointmentRepository = AppDataSource.getRepository(Appointment).extend({
     
     await this.save(appointmentToCancel);
     return appointmentToCancel;
+  },
+  checkByDateTime: async function (date: string, time: string, user: User): Promise<void> {
+    const foundAppointment = await this.findOneBy({
+      date,
+      time,
+      user,
+      status: 'active'
+    });
+
+    if (foundAppointment) {
+      throw new CustomError('APPOINTMENT_DUPLICATED', { date, time });
+    }
   }
 });
 

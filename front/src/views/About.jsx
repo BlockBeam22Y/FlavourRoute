@@ -1,11 +1,11 @@
-import expressLogo from '../assets/express-logo.svg';
-import nodejsLogo from '../assets/nodejs-logo.svg';
-import postgresqlLogo from '../assets/postgresql-logo.svg';
-import reactLogo from '../assets/react-logo.svg';
-import reduxLogo from '../assets/redux-logo.svg';
-import tailwindcssLogo from '../assets/tailwindcss-logo.svg';
-import typescriptLogo from '../assets/typescript-logo.svg';
-import vitejsLogo from '../assets/vitejs-logo.svg';
+import expressLogo from '../assets/icons/express-logo.svg';
+import nodejsLogo from '../assets/icons/nodejs-logo.svg';
+import postgresqlLogo from '../assets/icons/postgresql-logo.svg';
+import reactLogo from '../assets/icons/react-logo.svg';
+import reduxLogo from '../assets/icons/redux-logo.svg';
+import tailwindcssLogo from '../assets/icons/tailwindcss-logo.svg';
+import typescriptLogo from '../assets/icons/typescript-logo.svg';
+import vitejsLogo from '../assets/icons/vitejs-logo.svg';
 
 const About = () => {
   return (
