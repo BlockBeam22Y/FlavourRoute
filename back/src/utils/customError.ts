@@ -1,4 +1,8 @@
 const ErrorTypes = {
+  AVATAR_INVALID: {
+    message: () => 'Invalid avatar image',
+    statusCode: 400,
+  },
   USER_DATA_INVALID: {
     message: () => 'Invalid user data',
     statusCode: 400

@@ -2,9 +2,12 @@ import express, { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import router from './routes';
+import path from 'path';
 import CustomError from './utils/customError';
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(morgan('dev'));
 app.use(cors());

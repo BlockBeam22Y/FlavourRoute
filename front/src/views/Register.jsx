@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { GoUpload } from 'react-icons/go'
+import { GoUpload } from 'react-icons/go';
+import { IoIosClose } from 'react-icons/io';
 import defaultAvatar from '../assets/user.png';
 import Alert from '../components/Alert';
 import ActionButton from '../components/ActionButton';
+import AvatarModal from '../components/AvatarModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { years, months, days } from '../utils/dateOptions';
 import validateUserData from '../utils/validateUserData';
 import axios from 'axios';
+import { ModalContext } from '../App';
 import { login } from '../redux/userReducer';
 
 const Register = () => {
+  const setModal = useContext(ModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,6 +31,7 @@ const Register = () => {
     password: '',
     passwordConfirm: '',
     notificationsEnabled: false,
+    avatar: null
   });
 
   const [validationData, setValidationData] = useState({
@@ -40,6 +45,55 @@ const Register = () => {
 
   const [alertInfo, setAlertInfo] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  
+  const handleOnUpload = (event) => {
+    const file = event.target.files[0];
+    const avatarFormData = new FormData();
+    avatarFormData.append('file', file);
+    avatarFormData.append('currentAvatar', formData.avatar ?? '');
+
+    setIsPending(true);
+
+    axios.post('http://localhost:3000/avatars/upload', avatarFormData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+      .then(res => {
+        setFormData({
+          ...formData,
+          avatar: res.data.avatar
+        });
+
+        setIsPending(false);
+        event.target.value = '';
+      })
+      .catch(() => {
+        setModal(<AvatarModal />);
+        
+        setIsPending(false);
+        event.target.value = '';
+      })
+  };
+
+  const handleOnDelete = () => {
+    if (!formData.avatar) return;
+    setIsPending(true);
+
+    axios.delete(`http://localhost:3000/avatars/${formData.avatar}`)
+      .then(() => {
+        setIsPending(false);
+
+        setFormData({
+          ...formData,
+          avatar: null
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        setIsPending(false);
+      })
+  }
 
   const handleOnChange = (event) => {
     const { name, type, value } = event.target;
@@ -183,11 +237,35 @@ const Register = () => {
           </div>
 
           <div className='p-2 relative'>
-            <img src={defaultAvatar} alt='Profile picture' className='w-40 rounded-full border-2 border-gray-400' />
+            <img
+              src={formData.avatar ? `http://localhost:3000/avatars/${formData.avatar}.webp` : defaultAvatar}
+              alt='Profile picture' 
+              className='w-40 rounded-full border-2 border-gray-400' 
+            />
+            
+            {
+              formData.avatar && (
+                <div
+                  onClick={handleOnDelete}
+                  className={`${isPending && 'invisible'} absolute top-3 right-3 cursor-pointer rounded-full bg-gray-200 hover:bg-red-600 hover:text-white`}
+                >
+                  <IoIosClose className='w-6 h-6' />
+                </div>
+              )
+            }
+            
             <label className='w-40 h-40 flex justify-center items-center gap-1 rounded-full bg-black/20 absolute top-2 left-2 opacity-0 hover:opacity-100 cursor-pointer'>
               <GoUpload className='w-6 h-6 fill-white'/>
+
               <span className='text-white'>Upload photo</span>
-              <input type='file' accept='image/*' className='hidden' />
+
+              <input 
+                type='file' 
+                accept='image/*' 
+                disabled={isPending}
+                onChange={handleOnUpload}
+                className='hidden' 
+              />
             </label>
           </div>
         </div>

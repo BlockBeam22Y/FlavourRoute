@@ -19,7 +19,7 @@ export default {
     return UserRepository.findById(id);
   },
   async createUser(userData: UserDto): Promise<User> {
-    const { username, password, name, email, birthdate, nDni, notificationsEnabled } = userData;
+    const { username, password, name, email, birthdate, nDni, notificationsEnabled, avatar } = userData;
 
     const credential: Credential = await credentialsService.createCredential(username, password);
     const newUser: User = UserRepository.create({
@@ -28,10 +28,11 @@ export default {
       birthdate,
       nDni,
       notificationsEnabled,
-      credential
+      credential,
+      avatar
     });
 
-    await UserRepository.save(newUser);
+    await UserRepository.save(newUser).catch(err => console.error(err));
 
     if (notificationsEnabled) {
       emailNotifier.userRegisteredNotify(newUser, username);

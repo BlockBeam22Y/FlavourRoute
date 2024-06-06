@@ -6,4 +6,5 @@ export default interface UserDto {
   nDni: number,
   password: string
   notificationsEnabled?: boolean,
+  avatar: string
 };

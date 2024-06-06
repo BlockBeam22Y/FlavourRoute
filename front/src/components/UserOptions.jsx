@@ -15,7 +15,11 @@ const UserOptions = ({ user }) => {
     user ? (
       <div className='absolute top-0 right-0 flex flex-col bg-red-500 rounded-md shadow-md'>
         <div onClick={() => setToggle(!toggle)} className={`flex items-center h-12 px-1 cursor-pointer hover:bg-red-700 hover:text-gray-300 ${toggle ? 'border-gray-300 border-b rounded-t-md' : 'rounded-md'}`}>  
-          <img src={defaultAvatar} alt='avatar' className='w-12 h-12 p-1' />
+          <img
+            src={user.avatar ? `http://localhost:3000/avatars/${user.avatar}.webp` : defaultAvatar}
+            alt='avatar'
+            className='w-12 h-12 p-1 rounded-full'
+          />
 
           {toggle && <h3 className='mx-1 text-nowrap font-semibold'>{user.name}</h3>}
 

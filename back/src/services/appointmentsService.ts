@@ -26,17 +26,17 @@ export default {
     await AppointmentRepository.save(newAppointment);
 
     if (user.notificationsEnabled) {
-      emailNotifier.apppointmentScheduledNotify(user, date, time);
+      emailNotifier.apppointmentScheduledNotify(user, date, time, purpose);
     }
 
     return newAppointment;
   },
   async cancelAppointment(id: string): Promise<Appointment> {
     const appointment: Appointment = await AppointmentRepository.findByIdAndCancel(id);
-    const { user, date, time } = appointment;
+    const { user, date, time, purpose } = appointment;
 
     if (user.notificationsEnabled) {
-      emailNotifier.apppointmentCancelledNotify(user, date, time);
+      emailNotifier.apppointmentCancelledNotify(user, date, time, purpose);
     }
 
     return appointment;

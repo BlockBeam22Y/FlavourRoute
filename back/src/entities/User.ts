@@ -31,6 +31,12 @@ export class User {
   })
   notificationsEnabled: boolean
 
+  @Column({
+    type: 'uuid',
+    nullable: true
+  })
+  avatar: string
+
   @OneToMany(() => Appointment, appointment => appointment.user)
   appointments: Appointment[]
   
